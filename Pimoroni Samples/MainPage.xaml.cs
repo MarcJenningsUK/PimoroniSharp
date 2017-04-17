@@ -42,7 +42,7 @@ namespace Pimoroni_Samples
                 blinkt.SetBrightness(0.2m);
                 blinkt.SetPixel(count, red, green, blue);
             }
-            blinkt.show();
+            blinkt.Show();
         }
 
         private void RedButton_Click(object sender, RoutedEventArgs e)
@@ -52,7 +52,7 @@ namespace Pimoroni_Samples
                 blinkt.SetBrightness(0.2m);
                 blinkt.SetPixel(count, 255, 0, 0);
             }
-            blinkt.show();
+            blinkt.Show();
         }
         private void GreenButton_Click(object sender, RoutedEventArgs e)
         {
@@ -61,7 +61,7 @@ namespace Pimoroni_Samples
                 blinkt.SetBrightness(0.2m);
                 blinkt.SetPixel(count, 0, 255, 0);
             }
-            blinkt.show();
+            blinkt.Show();
         }
         private void BlueButton_Click(object sender, RoutedEventArgs e)
         {
@@ -70,13 +70,19 @@ namespace Pimoroni_Samples
                 blinkt.SetBrightness(0.2m);
                 blinkt.SetPixel(count, 0, 0, 255);
             }
-            blinkt.show();
+            blinkt.Show();
         }
 
         private void ClearButton_Click(object sender, RoutedEventArgs e)
         {
-            blinkt.clear();
-            blinkt.show();
+            blinkt.Clear();
+            blinkt.Show();
+        }
+
+        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        {
+            blinkt.Clear();
+            blinkt.Show();
         }
     }
 }

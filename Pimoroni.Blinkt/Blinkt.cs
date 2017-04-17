@@ -38,8 +38,8 @@ namespace Pimoroni.Blinkt
         {
             if(_clear_on_exit)
             {
-                clear();
-                show();
+                Clear();
+                Show();
                 ClockPin.Dispose();
                 DatPin.Dispose();
             }
@@ -67,18 +67,18 @@ namespace Pimoroni.Blinkt
             ClockPin.SetDriveMode(GpioPinDriveMode.Output);
             DatPin.SetDriveMode(GpioPinDriveMode.Output);
 
-            show();
+            Show();
 
             _gpio_setup = true;
         }
 
         private void WritePixel(Pixel pixel)
         {
-            var sendBright = (int)((31.0m * pixel.brightness)) & 31;
+            var sendBright = (int)((31.0m * pixel.Brightness)) & 31;
             write_byte(Convert.ToByte(224 | sendBright));
-            write_byte(Convert.ToByte(pixel.b));
-            write_byte(Convert.ToByte(pixel.g));
-            write_byte(Convert.ToByte(pixel.r));
+            write_byte(Convert.ToByte(pixel.B));
+            write_byte(Convert.ToByte(pixel.G));
+            write_byte(Convert.ToByte(pixel.R));
         }
 
         private void write_byte(byte input)
@@ -118,7 +118,7 @@ namespace Pimoroni.Blinkt
         /// <summary>
         /// Outputs the state of the pixels to the Blinkt hardware.
         /// </summary>
-        public void show()
+        public void Show()
         {
             GetClockLock();
 
@@ -138,11 +138,11 @@ namespace Pimoroni.Blinkt
         {
             if(bright < 0 || bright > 1)
             {
-                throw new IndexOutOfRangeException("Brightness must be a value between 0 and 1");
+                throw new ArgumentOutOfRangeException("Brightness must be a value between 0 and 1");
             }
             for (int count = 0; count < NUM_PIXELS; count++)
             {
-                pixels[count].brightness = bright;
+                pixels[count].Brightness = bright;
             }
         }
 
@@ -176,16 +176,16 @@ namespace Pimoroni.Blinkt
                 throw new IndexOutOfRangeException("Invalid pixel number specified");
             }
             var pix = pixels[pixelNum - 1];
-            pix.r = r;
-            pix.g = g;
-            pix.b = b;
-            pix.brightness = bright.HasValue ? bright.Value : BRIGHTNESS;
+            pix.R = r;
+            pix.G = g;
+            pix.B = b;
+            pix.Brightness = bright.HasValue ? bright.Value : BRIGHTNESS;
         }
 
         /// <summary>
         /// Clear all pixels.
         /// </summary>
-        public void clear()
+        public void Clear()
         {
             SetAllPixels(0, 0, 0, null);
         }
