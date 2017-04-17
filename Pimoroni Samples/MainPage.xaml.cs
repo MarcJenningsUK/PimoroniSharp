@@ -1,17 +1,9 @@
 ﻿using Pimoroni.Blinkt;
+using Pimoroni.Helpers;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
@@ -28,11 +20,19 @@ namespace Pimoroni_Samples
         public MainPage()
         {
             this.InitializeComponent();
-            blinkt = new Blinkt();
+            try
+            {
+                blinkt = new Blinkt();
+            }
+            catch(DeviceNotFoundException ex)
+            {
+                new MessageDialog(ex.Message, "Oops").ShowAsync();
+            }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            if (null == blinkt) return;
             Random rnd = new Random(DateTime.Now.Millisecond);
             var red = rnd.Next(0, 255);
             var green = rnd.Next(0, 255);
@@ -47,40 +47,33 @@ namespace Pimoroni_Samples
 
         private void RedButton_Click(object sender, RoutedEventArgs e)
         {
-            for (int count = 1; count < 9; count++)
-            {
-                blinkt.SetBrightness(0.2m);
-                blinkt.SetPixel(count, 255, 0, 0);
-            }
+            if (null == blinkt) return;
+            blinkt.SetAllPixels(255, 0, 0);
             blinkt.Show();
         }
         private void GreenButton_Click(object sender, RoutedEventArgs e)
         {
-            for (int count = 1; count < 9; count++)
-            {
-                blinkt.SetBrightness(0.2m);
-                blinkt.SetPixel(count, 0, 255, 0);
-            }
+            if (null == blinkt) return;
+            blinkt.SetAllPixels(0, 255, 0);
             blinkt.Show();
         }
         private void BlueButton_Click(object sender, RoutedEventArgs e)
         {
-            for (int count = 1; count < 9; count++)
-            {
-                blinkt.SetBrightness(0.2m);
-                blinkt.SetPixel(count, 0, 0, 255);
-            }
+            if (null == blinkt) return;
+            blinkt.SetAllPixels(0, 0, 255);
             blinkt.Show();
         }
 
         private void ClearButton_Click(object sender, RoutedEventArgs e)
         {
+            if (null == blinkt) return;
             blinkt.Clear();
             blinkt.Show();
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
+            if (null == blinkt) return;
             blinkt.Clear();
             blinkt.Show();
         }

@@ -5,7 +5,6 @@
 
 using Pimoroni.Helpers;
 using System;
-using System.Text;
 using Windows.Devices.Gpio;
 
 namespace Pimoroni.Blinkt
